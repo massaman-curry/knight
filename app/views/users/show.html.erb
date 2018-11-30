@@ -1,0 +1,91 @@
+<div class="user_show_profile_wrapper">
+	<div class="user_show_profile_upper_container">
+	<div class="frame">
+		<div class="user_show_profile_img_container">
+			<%= attachment_image_tag @user, :image, :class => 'user_show_profile_img' %>
+		</div>
+		<div class="user_show_profile_content">
+			<p class="name"><%= @user.name %></p>
+		</div>
+		<div class="user_show_profile_content">
+			<p class="profile"><%= @user.profile %></p>
+		</div>
+	</div>
+	</div>
+	<div class="user_show_profile_bottom_container">
+		<div class="frame">
+			<div class="counter token_counter">
+				<p>現在のポイント数:<span><%= current_user.point.token %>pt</span></p>
+			</div>
+			<div class="counter post_counter">
+				<p>投稿数:<span><%= @posts.count %></span></p>
+			</div>
+		<% if @user.id == current_user.id %>
+			<a href="#">
+			<%= link_to edit_user_path(current_user.id) do %>
+			<div class="edit_link_button">
+				<p>編集する</p>
+			</div>
+			<% end %>
+			</a>
+		<% end %>
+		</div>
+	</div>
+</div>
+
+<div class="user_show_past_post_wrapper">
+<ul class="past_post_list">
+<% @posts.each do |post| %>
+	<li class="past_post_card_frame">
+		<a href="" class="past_post_card_inr">
+		<%= link_to post_path(post.id) do %>
+			<div class="user_show_card_title">
+				<p><%= post.title %></p>
+			</div>
+			<div class="user_show_card_rating">
+			<% reviews = Review.where(post_id: post.id) %>
+			<% rate = reviews.average(:rating).to_i %>
+			<% case rate %>
+			<% when 1..1.9 %>
+				<i class="fas fa-star yellow_star"></i>
+				<% 4.times do %>
+				<i class="fas fa-star"></i>
+			<% end %>
+			<% when 2..2.9 %>
+				<% 2.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<% 3.times do %>
+				<i class="fas fa-star"></i>
+			<% end %>
+			<% when 3..3.9 %>
+				<% 3.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<% 2.times do %>
+				<i class="fas fa-star"></i>
+			<% end %>
+			<% when 4..4.9 %>
+				<% 4.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<i class="fas fa-star"></i>
+			<% when 5 %>
+				<% 5.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+			<% else %>
+				<% 5.times do %>
+				<i class="fas fa-star"></i>
+				<% end %>
+			<% end %>
+			</div>
+			<div class="user_show_card_description">
+				<p><%= post.description %></p>
+			</div>
+		<% end %>
+		</a>
+	</li>
+<% end %>
+</ul>
+</div>

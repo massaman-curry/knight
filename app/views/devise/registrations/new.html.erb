@@ -1,0 +1,43 @@
+<%= devise_error_messages! %>
+<div class="sign_up_container">
+<div class="sign_up_left_container">
+  <p class="sign_up_img_title"></p>
+  <img class="sign_up_img" src="/knight_header_logo.png">
+</div>
+<div class="sign_up_right_container">
+  <div class="sign_up_form_container">
+    <h1>アカウント登録</h1>
+    <h2>創価大学のメールアドレスを持っていれば、無料でご利用頂けます。さあ、始めましょう。</h2>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
+    <div class="sign_up_field_first">
+    <%= f.label :email, 'メールアドレス:', :class => "sign_up_label" %><br>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "sign_up_form", :placeholder => "大学のメールアドレス" %>
+    </div>
+
+    <div class="sign_up_field">
+    <%= f.label :name, 'ユーザーネーム:', :class=> "sign_up_label" %><br>
+    <%= f.text_field :name, autocomplete: "name", :class => "sign_up_form", :placeholder => "ユーザーネーム" %>
+    </div>
+
+    <div class="sign_up_field">
+    <%= f.label :password, "パスワード:", :class => "sign_up_label" %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %>文字以上)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off", :class => "sign_up_form", :placeholder => "パスワードを入力" %>
+    </div>
+
+    <div class="sign_up_field">
+    <%= f.label :password_confirmation, "パスワードを再度入力:", :class => "sign_up_label" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off", :class => "sign_up_form", :placeholder => "パスワードを再度入力" %>
+    </div>
+
+    <div class="sign_up_field">
+    <%= f.submit "アカウント登録", :class=> "sign_up_button" %>
+    </div>
+    <% end %>
+  </div>
+</div>
+</div>
+

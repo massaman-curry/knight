@@ -1,0 +1,21 @@
+<div class="user_index_post_wrapper clearfix">
+<% @users.each do |user| %>
+<a href="#">
+<%= link_to user_path(user.id) do %>
+	<ul class="index_card">
+		<li class="user_index_card_profile_img_container">
+		<%= attachment_image_tag user, :image, :class => "user_index_card_profile_img" %>
+		</li>
+		<li class="index_card_title user_index_card_title">
+			<p><%= user.name %></p>
+		</li>
+		<li class="user_index_card_description">
+			<p><%= user.profile %></p>
+		</li>
+	</ul>
+<% end %>
+</a>
+<% end %>
+</div>
+<footer class="user_index_footer">
+</footer>

@@ -1,0 +1,101 @@
+<div class="user_show_profile_wrapper">
+	<div class="user_show_profile_upper_container">
+	<div class="frame">
+		<div class="user_show_profile_img_container">
+			<%= attachment_image_tag @user, :image, :class => 'user_show_profile_img' %>
+		</div>
+		<%= form_for(@user) do |f| %>
+		<div class="user_edit_name_container">
+			<%= f.text_field :name %>
+			<%= f.label :image, "アイコン" %>
+			<%= f.attachment_field :image %>
+			<%= f.check_box :remove_image %>
+			<%= f.label :remove_image %>
+		</div>
+		<div class="user_edit_profile_container">
+			<%= f.text_area :profile %>
+			<%= f.submit '完了', :class => 'user_edit_submit' %>
+		</div>
+		<% end %>
+	</div>
+	</div>
+	<div class="user_show_profile_bottom_container">
+		<div class="frame">
+			<div class="counter token_counter">
+				<p>現在のポイント数:<span><%= current_user.point.token %>pt</span></p>
+			</div>
+			<div class="counter post_counter">
+				<p>投稿数:<span><%= @posts.count %></span></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="user_show_past_post_wrapper">
+<ul class="past_post_list">
+<% @posts.each do |post| %>
+	<li class="past_post_card_frame">
+		<a href="" class="past_post_card_inr">
+		<%= link_to post_path(post.id) do %>
+			<div class="user_show_card_title">
+				<p><%= post.title %></p>
+			</div>
+			<div class="user_show_card_rating">
+			<% reviews = Review.where(post_id: post.id) %>
+			<% rate = reviews.average(:rating).to_i %>
+			<% case rate %>
+			<% when 1..1.9 %>
+				<i class="fas fa-star yellow_star"></i>
+				<% 4.times do %>
+				<i class="fas fa-star"></i>
+			<% end %>
+			<% when 2..2.9 %>
+				<% 2.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<% 3.times do %>
+				<i class="fas fa-star"></i>
+			<% end %>
+			<% when 3..3.9 %>
+				<% 3.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<% 2.times do %>
+				<i class="fas fa-star"></i>
+			<% end %>
+			<% when 4..4.9 %>
+				<% 4.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<i class="fas fa-star"></i>
+			<% when 5 %>
+				<% 5.times do %>
+				<i class="fas fa-star yellow_star"></i>
+				<% end %>
+			<% else %>
+				<% 5.times do %>
+				<i class="fas fa-star"></i>
+				<% end %>
+			<% end %>
+			</div>
+			<div class="user_show_card_description">
+				<p><%= post.description %></p>
+			</div>
+			<div class="user_show_card_options">
+			<a href="#">
+			<%= link_to edit_post_path(post.id) do %>
+				<i class="far fa-edit user_show_edit_icon"></i>
+			<% end %>
+			</a>
+			<a href="#">
+			<%= link_to post_path(post.id), method: :delete do %>
+				<i class="far fa-trash-alt user_show_delete_icon"></i>
+			<% end %>
+			</a>
+			</div>
+		<% end %>
+		</a>
+	</li>
+<% end %>
+</ul>
+</div>

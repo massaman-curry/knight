@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Knight</title>
+    <%= csrf_meta_tags %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <header>
+
+  <% if user_signed_in? %>
+  <div class="header_container">
+    <ul class="header_left_container">
+      <a href="#">
+      <%= link_to new_post_path do %>
+        <li><i class="fas fa-upload"></i></li>
+      <% end %>
+      </a>
+      <a href="#">
+      <%= link_to users_path do %>
+      <li><i class="fas fa-users"></i></li>
+      <% end %>
+      </a>
+      <a href="#">
+      <%= link_to posts_path do %>
+      <li><i class="fas fa-search"></i></li>
+      <% end %>
+      </a>
+    </ul>
+    <a href="#">
+    <%= link_to posts_path do %>
+    <img id="knight_header_logo" src="/knight_header_logo.png">
+    <% end %>
+    </a>
+    <ul class="header_right_container">
+      <a href="#">
+      <%= link_to user_path(current_user.id) do %>
+        <li class="current_user_img_container">
+          <%= attachment_image_tag current_user, :image, class: "current_user_img" %>
+        </li>
+      <% end %>
+      </a>
+      <li class="points_counter_container">
+        <p><%= current_user.point.token %><span>pt</span></p>
+      </li>
+      <a href="#">
+        <li class="logout">
+          <%= link_to destroy_user_session_path, method: :delete do %>
+        <i class="fas fa-sign-out-alt"></i>
+        <% end %>
+        </li>
+      </a>
+    </ul>
+  </div>
+
+  <% else %>
+  <div class="header_before_login_container">
+    <div class="header_before_login_left_container">
+    </div>
+    <a href="#">
+        <img id="knight_header_before_login_logo" src="/knight_header_logo.png">
+    </a>
+    <div class="header_before_login_right_container">
+    <a href="#">
+    <%= link_to new_user_registration_path do %>
+      <p class="header_before_sin_up_btn">新規登録</p>
+    <% end %>
+    </a>
+    <a href="#">
+    <%= link_to new_user_session_path do %>
+      <p class="header_before_lgin_btn">ログイン</p>
+    <% end %>
+    </a>
+    </div>
+  <% end %>
+  </div>
+  </header>
+
+  <main>
+    <%= yield %>
+  </main>
+
+  </body>
+</html>

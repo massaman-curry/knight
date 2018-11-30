@@ -1,0 +1,86 @@
+<div class="index_container">
+	<div class="index_logo_search_wrapper">
+		<div>
+			<img class="index_logo" src="/knight_header_logo.png">
+			<br>
+			<div class="index_mantra">
+				<p>ペンは剣よりも強し</p>
+			</div>
+			<div class="index_search_wrapper">
+				<%= form_tag(posts_path, method: :get, class: "index_search_form_container") do %>
+				<%= text_field_tag :search, '', :placeholder => "タイトルを検索..." %>
+				<%= button_tag '検索',type: "submit", name: nil, class: "index_search_button" %>
+			<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="index_post_wrapper clearfix">
+	<% @posts.each do |post| %>
+		<a href="#">
+		<%= link_to post_path(post.id) do %>
+		<div class="index_card">
+			<div class="index_card_title">
+				<p><%= post.title %></p>
+			</div>
+			<div class="index_card_rating">
+				<% reviews = Review.where(post_id: post.id) %>
+				<% rate = reviews.average(:rating).to_i %>
+				<% case rate %>
+				<% when 1..1.9 %>
+					<i class="fas fa-star yellow_star"></i>
+					<% 4.times do %>
+					<i class="fas fa-star"></i>
+					<% end %>
+				<% when 2..2.9 %>
+					<% 2.times do %>
+					<i class="fas fa-star yellow_star"></i>
+					<% end %>
+					<% 3.times do %>
+					<i class="fas fa-star"></i>
+				<% end %>
+				<% when 3..3.9 %>
+					<% 3.times do %>
+					<i class="fas fa-star yellow_star"></i>
+					<% end %>
+					<% 2.times do %>
+					<i class="fas fa-star"></i>
+				<% end %>
+				<% when 4..4.9 %>
+					<% 4.times do %>
+					<i class="fas fa-star yellow_star"></i>
+				<% end %>
+					<i class="fas fa-star"></i>
+				<% when 5 %>
+					<% 5.times do %>
+					<i class="fas fa-star yellow_star"></i>
+				<% end %>
+				<% else %>
+					<% 5.times do %>
+					<i class="fas fa-star"></i>
+				<% end %>
+				<% end %>
+			</div>
+			<div class="index_card_description">
+				<p><%= post.description %></p>
+			</div>
+			<div class="index_card_delete_edit_container">
+			<% if post.user_id == current_user.id %>
+			<a href="#">
+				<%= link_to edit_post_path(post.id) do %>
+				<i class="fas fa-edit"></i>
+				<% end %>
+			</a>
+			<a href="#">
+				<%= link_to post_path(post.id), method: :delete do %>
+				<i class="fas fa-trash-alt"></i>
+				<% end %>
+			</a>
+			<% end %>
+			</div>
+		</div>
+		<% end %>
+		</a>
+	<% end %>
+	</div>
+	<footer class="index_footer"></footer>
+</div>

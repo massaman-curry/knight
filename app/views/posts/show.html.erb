@@ -1,0 +1,167 @@
+<div class="post_show_modal_bg">
+	<div class="post_show_modal_close">
+		<i class="fas fa-times"></i>
+	</div>
+<div class="post_show_modal_frame">
+	<div class="post_show_modal_slide">
+	<ul>
+		<% @post.albums.each do |image| %>
+		<li>
+		<div class="post_show_modal_img">
+			<%= attachment_image_tag image, :images, class: "post_show_modal_picture" %>
+		</div>
+		</li>
+		<% end %>
+		<li>
+		<div class="post_show_modal_img mygray">
+		</div>
+		</li>
+	</ul>
+	<button class="prevBtn"><img src="/prev.png"></button>
+	<button class="nextBtn"><img src="/next.png"></button>
+	</div>
+</div>
+</div>
+<div class="post_show_upper_container">
+	<div class="article_information_container">
+		<div class="title_container">
+			<p><%= @post.title %></p>
+		</div>
+		<div class="description_container">
+			<p><%= @post.description %></p>
+		</div>
+		<div class="post_user_information clearfix">
+			<div class="profile_img">
+			<%= link_to user_path(@post.user.id) do %>
+				<%= attachment_image_tag @post.user, :image, class: "post_user_profile_img" %>
+			<% end %>
+			</div>
+			<div class="name">
+				<p><%= @post.user.name %></p>
+			</div>
+		</div>
+	</div>
+	<div class="post_show_edit_link_button_container">
+	<% if current_user.id == @post.user_id %>
+	<a href="#">
+		<%= link_to edit_post_path(params[:id]) do %>
+		<div class="post_show_edit_link_button">
+			<p>編集</p>
+		</div>
+		<% end %>
+	</a>
+	<% end %>
+	</div>
+</div>
+<div class="post_show_bottom_container">
+	<div class="post_show_comment_container">
+		<div class="comment_form_container">
+			<div class="profile_img">
+				<%= attachment_image_tag current_user, :image, class: "show_current_user_img" %>
+			</div>
+			<%= form_for [@post, @review] do |f| %>
+			<br>
+			<div class="rating_container">
+				<%= f.radio_button :rating, 5 %>
+				<%= f.label :rating_5, "★" %>
+				<%= f.radio_button :rating, 4 %>
+				<%= f.label :rating_4, "★" %>
+				<%= f.radio_button :rating, 3 %>
+				<%= f.label :rating_3, "★" %>
+				<%= f.radio_button :rating, 2 %>
+				<%= f.label :rating_2, "★" %>
+				<%= f.radio_button :rating, 1 %>
+				<%= f.label :rating_1, "★" %>
+			</div>
+			<%= f.text_area :comment, :placeholder => 'コメントを投稿...' %>
+			<%= f.submit '投稿', :class =>'comment_submit_button' %>
+			<% end %>
+		</div>
+
+		<% @reviews.each do |review| %>
+		<div class="comments_index">
+			<div class="comment_container">
+				<div class="user_img_container">
+				<%= link_to user_path(review.user.id) do %>
+				<%= attachment_image_tag review.user, :image, class: "comment_user_img" %>
+				<% end %>
+				</div>
+				<div class="user_name">
+					<p><%= review.user.name %></p>
+				</div>
+				<div class="article">
+					<p><%= review.comment %></p>
+				</div>
+			</div>
+		</div>
+		<% end %>
+	</div>
+</div>
+<div class="post_show_card">
+<div class="frame">
+	<div class="card_title">
+		<p><%= @post.title %></p>
+	</div>
+	<div class="card_rating">
+		<% rate = @reviews.average(:rating).to_i %>
+		<% case rate %>
+			<% when 1..1.9 %>
+				<i class="fas fa-star yellow_star"></i>
+			<% 4.times do %>
+				<i class="fas fa-star dark_star"></i>
+			<% end %>
+			<% when 2..2.9 %>
+			<% 2.times do %>
+				<i class="fas fa-star yellow_star"></i>
+			<% end %>
+			<% 3.times do %>
+				<i class="fas fa-star dark_star"></i>
+			<% end %>
+			<% when 3..3.9 %>
+			<% 3.times do %>
+				<i class="fas fa-star yellow_star"></i>
+			<% end %>
+			<% 2.times do %>
+				<i class="fas fa-star dark_star"></i>
+			<% end %>
+			<% when 4..4.9 %>
+			<% 4.times do %>
+				<i class="fas fa-star yellow_star"></i>
+			<% end %>
+				<i class="fas fa-star dark_star"></i>
+			<% when 5 %>
+			<% 5.times do %>
+				<i class="fas fa-star yellow_star"></i>
+			<% end %>
+			<% else %>
+			<% 5.times do %>
+				<i class="fas fa-star dark_star"></i>
+			<% end %>
+		<% end %>
+	</div>
+	<% if @current_point.token > 0 %>
+	<a href="#" class="show_get_button">
+		<%= link_to user_points_path(user_id: current_user.id, post_user_id: @post.user.id), method: :patch do %>
+		<div class="show_get_button_container">
+			<p>Get</p>
+		</div>
+		<% end %>
+	</a>
+	<% else %>
+		<div class="show_get_unbutton_container">
+			<p>Get</p>
+		</div>
+	<% end %>
+	<div class="card_description">
+		<p><%= @post.description %></p>
+	</div>
+	<div class="card_warning">
+		<p><span>注意:</span><br>
+		Getボタンを押すと、ポイントが消費されます。</p>
+	</div>
+</div>
+</div>
+
+<footer class="post_show_footer">
+</footer>
+

@@ -1,0 +1,40 @@
+<% if current_user.id == @post.user_id %>
+<div class="edit_post_container">
+	<div class="edit_form_wrapper">
+		<div class="new_form_name_wrapper">
+			<p>編集する</p>
+		</div>
+		<div class="new_form_container">
+		<%= form_for(@post) do |f| %>
+		<div>
+			<%= f.label :Title, "タイトル (30文字以内):" %><br>
+			<%= f.text_field :title, :placeholder => 'タイトル...' %>
+		</div>
+		<div>
+			<%= f.label :Description, "説明 (80文字以内):" %><br>
+			<%= f.text_area :description, :placeholder => '詳しい説明...' %>
+		</div>
+		<div class="clearfix">
+			<% @post.albums.each do |image| %>
+			<div class="edit_post_current_img_container">
+				<%= attachment_image_tag image, :images, :class => "edit_post_current_img" %>
+			</div>
+			<% end %>
+		</div>
+		<div>
+			<%= f.label :Image, "投稿する写真" %><br>
+			<%= f.attachment_field :albums_images, multiple: true %>
+		</div>
+		<div>
+			<%= f.submit '完了', :class => "new_form_post_button" %>
+		</div>
+		<% end %>
+		</div>
+	</div>
+</div>
+<% else %>
+	<div class="edit_post_say_hello">
+	</div>
+<% end %>
+<footer class="edit_post_footer">
+</footer>

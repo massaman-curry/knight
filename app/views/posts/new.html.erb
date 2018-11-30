@@ -1,0 +1,36 @@
+<% if @post.errors.any? %>
+	<div id="error_explanation">
+		<p>おっと！<%= @post.errors.count %>カ所入力されていないところがあります!</p>
+		<ul>
+			<% @post.errors.full_messages.each do |msg| %>
+			<li><%=msg%></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>
+<div class="new_post_container">
+	<div class="new_form_wrapper">
+		<div class="new_form_name_wrapper">
+			<p>新しく投稿する</p>
+		</div>
+		<div class="new_form_container">
+		<%= form_for(@post) do |f| %>
+		<div>
+			<%= f.label :Title, "タイトル (30文字以内):" %><br>
+			<%= f.text_field :title, :placeholder => 'タイトル...' %>
+		</div>
+		<div>
+			<%= f.label :Description, "説明 (80文字以内):" %><br>
+			<%= f.text_area :description, :placeholder => '詳しい説明...' %>
+		</div>
+		<div>
+			<%= f.label :Image, "投稿する写真" %><br>
+			<%= f.attachment_field :albums_images, multiple: true %>
+		</div>
+		<div>
+			<%= f.submit '投稿', :class => "new_form_post_button" %>
+		</div>
+		<% end %>
+		</div>
+	</div>
+</div>

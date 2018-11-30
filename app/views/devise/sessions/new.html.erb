@@ -1,0 +1,38 @@
+<div class="new_post_container">
+  <div class="new_form_wrapper">
+    <div class="new_form_name_wrapper">
+      <p>ログインする</p>
+    </div>
+
+    <div class="new_form_container">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+      <div class="login_form_field">
+        <%= f.label :email, 'メールアドレス:' %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "login_form", :placeholder => "大学のメールアドレスを入力" %>
+      </div>
+
+      <div class="login_form_field">
+        <%= f.label :password, 'パスワード:' %><br />
+        <%= f.password_field :password, autocomplete: "off", :class => "login_form", :placeholder => "パスワードを入力" %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end -%>
+
+      <div class="actions">
+      <%= f.submit "ログイン", :class => "login_submit_button" %>
+      </div>
+
+    <% end %>
+
+    </div>
+
+  </div>
+</div>
+
+
